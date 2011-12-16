@@ -1,266 +1,185 @@
+// vim: ft=qml et ts=4 sw=4
+
 import QtQuick 1.0
 
 Rectangle {
-    id: base
-    width: 800
+    id: root
+    width: 854
     height: 480
-    color: "black"
-    Flickable {
-        id: flickArea
-        anchors.fill: base
-        contentWidth: textEdit.width
-        contentHeight: textEdit.height
-        flickableDirection: Flickable.VerticalFlick
-        clip: true
 
-        TextEdit {
-            id: textEdit
-            anchors.bottom: parent.bottom
-            width: base.width
-            text: ""
-            readOnly: false
-            font.family: "monospace"
-            font.pointSize: 18
-            color: "#00FF00"
-            focus: true
-            wrapMode: TextEdit.WrapAnywhere
-            textFormat: TextEdit.PlainText
-            property int speed: 4
-            property int codePos: 0
-            property bool textUpdate: false
-
-            onTextChanged: {
-                if (textEdit.textUpdate == true)
-                {
-                    return;
-                }
-
-                if (textEdit.text.charAt(0) == "?")
-                {
-                    accessGrantedMsg.visible = true;
-                } else if (textEdit.text.charAt(0) == "@")
-                {
-                    accessDeniedMsg.visible = true;
-                } else if (accessGrantedMsg.visible == true || accessDeniedMsg.visible == true)
-                {
-                    accessGrantedMsg.visible = false;
-                    accessDeniedMsg.visible = false;
-                }
-
-                textEdit.textUpdate = true;
-                getNextBlock();
-                textEdit.textUpdate = false;
+    Rectangle {
+        id: base
+        width: parent.width
+        height: parent.height - pseudoKbd.height - 2
+        color: "black"
+        Flickable {
+            id: flickArea
+            anchors.fill: base
+            height: base.height
+            contentWidth: textEdit.width
+            contentHeight: textEdit.height
+            flickableDirection: Flickable.VerticalFlick
+            clip: true
+            onHeightChanged: {
+                updateFlickArea();
             }
-        }
-     }
-     Rectangle {
-         id: accessGrantedMsg
-         width: base.width * 0.8
-         height: width * 0.2
-         x: base.width/2 - width/2
-         y: base.height/2 - height/2
-         visible: false
-         color: "gray"
-         border.color: "lightgrey"
-         border.width: 1
-         Text {
-             anchors.fill: accessGrantedMsg
-             text: "Access Granted"
-             font.family: "monospace"
-             font.pointSize: 48
-             font.bold: true
-             color: "lightgreen"
-             verticalAlignment: Text.AlignVCenter
-             horizontalAlignment: Text.AlignHCenter
-         }
-     }
-     Rectangle {
-         id: accessDeniedMsg
-         width: base.width * 0.8
-         height: width * 0.2
-         x: base.width/2 - width/2
-         y: base.height/2 - height/2
-         visible: false
-         color: "darkgrey"
-         border.color: "red"
-         border.width: 1
-         Text {
-             anchors.fill: accessDeniedMsg
-             text: "Access Denied"
-             font.family: "monospace"
-             font.pointSize: 48
-             font.bold: true
-             color: "red"
-             verticalAlignment: Text.AlignVCenter
-             horizontalAlignment: Text.AlignHCenter
-         }
-     }
 
-     function getNextBlock()
-     {
+            TextEdit {
+                id: textEdit
+                anchors.bottom: parent.bottom
+                width: base.width
+                text: ""
+                readOnly: true
+                font.family: "monospace"
+                font.pointSize: 18
+                color: "#00FF00"
+                focus: true
+                wrapMode: TextEdit.WrapAnywhere
+                textFormat: TextEdit.PlainText
+                property int speed: 14
+                property int codePos: 0
+                property bool textUpdate: false
+                Keys.onPressed: {
+                    getNextBlock();
+                }
+                AccessMessage {
+                    id: accessGrantedMsg
+                    msgText: "Access Granted"
+                    msgColor: "green"
+                }
+                AccessMessage {
+                    id: accessDeniedMsg
+                    msgText: "Access Denied"
+                    msgColor: "red"
+                }
+        }
+    }
+    MouseArea {
+        anchors.fill: parent
+        onDoubleClicked: {
+            if (pseudoKbd.state == "show")
+                pseudoKbd.state = "";
+            else
+                pseudoKbd.state = "show";
+        }
+   }
+
+    AboutButton {
+        id: aboutButton
+    }
+
+    HildonTaskButton {
+        anchors.left: parent.left
+        icon: 'wmTaskSwitcherIcon'
+
+        onClicked: {
+            viewer.minimise()
+        }
+    }
+
+    HildonTaskButton {
+        anchors.right: parent.right
+        icon: 'wmCloseIcon'
+        onClicked: {
+            Qt.quit()
+        }
+    }
+}
+PseudoKeyboard {
+    id: pseudoKbd
+    opacity: 0
+    y: base.height
+    height: 0
+    anchors.bottom: parent.bottom
+}
+
+function getNextBlock()
+{
 var code = "struct group_info init_groups = { .usage = ATOMIC_INIT(2) };\n\
-\n\
 struct group_info *groups_alloc(int gidsetsize){\n\
+    struct group_info *group_info;\n\
+    int nblocks;\n\
+    int i;\n\
 \n\
-        struct group_info *group_info;\n\
+    nblocks = (gidsetsize + NGROUPS_PER_BLOCK - 1) / NGROUPS_PER_BLOCK;\n\
 \n\
-        int nblocks;\n\
+    /* Make sure we always allocate at least one indirect block pointer */\n\
+    nblocks = nblocks ? : 1;\n\
+    group_info = kmalloc(sizeof(*group_info) + nblocks*sizeof(gid_t *), GFP_USER);\n\
 \n\
-        int i;\n\
-\n\
-\n\
-\n\
-        nblocks = (gidsetsize + NGROUPS_PER_BLOCK - 1) / NGROUPS_PER_BLOCK;\n\
-\n\
-        /* Make sure we always allocate at least one indirect block pointer */\n\
-\n\
-        nblocks = nblocks ? : 1;\n\
-\n\
-        group_info = kmalloc(sizeof(*group_info) + nblocks*sizeof(gid_t *), GFP_USER);\n\
-\n\
-        if (!group_info)\n\
-\n\
-                return NULL;\n\
-\n\
-        group_info->ngroups = gidsetsize;\n\
-\n\
-        group_info->nblocks = nblocks;\n\
-\n\
-        atomic_set(&group_info->usage, 1);\n\
-\n\
-\n\
-\n\
-        if (gidsetsize <= NGROUPS_SMALL)\n\
-\n\
-                group_info->blocks[0] = group_info->small_block;\n\
-\n\
-        else {\n\
-\n\
-                for (i = 0; i < nblocks; i++) {\n\
-\n\
-                        gid_t *b;\n\
-\n\
-                        b = (void *)__get_free_page(GFP_USER);\n\
-\n\
-                        if (!b)\n\
-\n\
-                                goto out_undo_partial_alloc;\n\
-\n\
-                        group_info->blocks[i] = b;\n\
-\n\
-                }\n\
-\n\
-        }\n\
-\n\
-        return group_info;\n\
-\n\
-\n\
-\n\
-out_undo_partial_alloc:\n\
-\n\
-        while (--i >= 0) {\n\
-\n\
-                free_page((unsigned long)group_info->blocks[i]);\n\
-\n\
-        }\n\
-\n\
-        kfree(group_info);\n\
-\n\
+    if (!group_info)\n\
         return NULL;\n\
 \n\
+    group_info->ngroups = gidsetsize;\n\
+    group_info->nblocks = nblocks;\n\
+    atomic_set(&group_info->usage, 1);\n\
+\n\
+    if (gidsetsize <= NGROUPS_SMALL)\n\
+        group_info->blocks[0] = group_info->small_block;\n\
+    else {\n\
+        for (i = 0; i < nblocks; i++) {\n\
+            gid_t *b;\n\
+            b = (void *)__get_free_page(GFP_USER);\n\
+            if (!b)\n\
+                goto out_undo_partial_alloc;\n\
+\n\
+            group_info->blocks[i] = b;\n\
+        }\n\
+        }\n\
+        return group_info;\n\
+\n\
+out_undo_partial_alloc:\n\
+        while (--i >= 0) {\n\
+                free_page((unsigned long)group_info->blocks[i]);\n\
+        }\n\
+        kfree(group_info);\n\
+        return NULL;\n\
 }\n\
-\n\
-\n\
 \n\
 EXPORT_SYMBOL(groups_alloc);\n\
 \n\
-\n\
-\n\
 void groups_free(struct group_info *group_info)\n\
-\n\
 {\n\
-\n\
         if (group_info->blocks[0] != group_info->small_block) {\n\
-\n\
                 int i;\n\
-\n\
                 for (i = 0; i < group_info->nblocks; i++)\n\
-\n\
                         free_page((unsigned long)group_info->blocks[i]);\n\
-\n\
         }\n\
-\n\
         kfree(group_info);\n\
-\n\
 }\n\
-\n\
-\n\
 \n\
 EXPORT_SYMBOL(groups_free);\n\
 \n\
-\n\
-\n\
 /* export the group_info to a user-space array */\n\
-\n\
 static int groups_to_user(gid_t __user *grouplist,\n\
-\n\
                           const struct group_info *group_info)\n\
-\n\
 {\n\
-\n\
         int i;\n\
-\n\
         unsigned int count = group_info->ngroups;\n\
 \n\
-\n\
-\n\
         for (i = 0; i < group_info->nblocks; i++) {\n\
-\n\
                 unsigned int cp_count = min(NGROUPS_PER_BLOCK, count);\n\
-\n\
                 unsigned int len = cp_count * sizeof(*grouplist);\n\
-\n\
-\n\
 \n\
                 if (copy_to_user(grouplist, group_info->blocks[i], len))\n\
-\n\
                         return -EFAULT;\n\
 \n\
-\n\
-\n\
                 grouplist += NGROUPS_PER_BLOCK;\n\
-\n\
                 count -= cp_count;\n\
-\n\
         }\n\
-\n\
         return 0;\n\
-\n\
 }\n\
 \n\
-\n\
-\n\
 /* fill a group_info from a user-space array - it must be allocated already */\n\
-\n\
 static int groups_from_user(struct group_info *group_info,\n\
-\n\
     gid_t __user *grouplist)\n\
-\n\
 {\n\
-\n\
         int i;\n\
-\n\
         unsigned int count = group_info->ngroups;\n\
 \n\
-\n\
-\n\
         for (i = 0; i < group_info->nblocks; i++) {\n\
-\n\
                 unsigned int cp_count = min(NGROUPS_PER_BLOCK, count);\n\
-\n\
                 unsigned int len = cp_count * sizeof(*grouplist);\n\
-\n\
-\n\
 \n\
                 if (copy_from_user(group_info->blocks[i], grouplist, len))\n\
 \n\
@@ -629,10 +548,16 @@ int in_egroup_p(gid_t grp)\n\
         return retval;\n\
 \n\
 }";
-         var out = code.substr(0, textEdit.codePos+textEdit.speed);
-         textEdit.codePos += textEdit.speed;
-         textEdit.text = out;
-         if (!flickArea.atYEnd)
-             flickArea.contentY = textEdit.height - flickArea.height;
-     }
+    var out = code.substr(0, textEdit.codePos+textEdit.speed);
+    textEdit.codePos += textEdit.speed;
+    textEdit.text = out;
+    updateFlickArea();
+}
+
+function updateFlickArea()
+{
+    if (!flickArea.atYEnd)
+        flickArea.contentY = textEdit.height - flickArea.height + 3;
+}
+
 }
