@@ -16,7 +16,7 @@ Rectangle {
         anchors.centerIn: parent
         Row {
             spacing: 2
-            KbdButton { value: "T" }
+            KbdButton { value: "Tab"; keyWidth: 85 }
             KbdButton { value: "q" }
             KbdButton { value: "w" }
             KbdButton { value: "e" }
@@ -27,11 +27,11 @@ Rectangle {
             KbdButton { value: "i" }
             KbdButton { value: "o" }
             KbdButton { value: "p" }
-            KbdButton { value: "-" }
+            KbdButton { value: "-"; keyWidth: 85 }
         }
         Row {
             spacing: 3
-            KbdButton { value: "C" }
+            KbdButton { value: "|" }
             KbdButton { value: "a" }
             KbdButton { value: "s" }
             KbdButton { value: "d" }
@@ -42,11 +42,11 @@ Rectangle {
             KbdButton { value: "k" }
             KbdButton { value: "l" }
             KbdButton { value: "'" }
-            KbdButton { value: "E" }
+            KbdButton { value: "Enter"; keyWidth: 125 }
         }
         Row {
             spacing: 3
-            KbdButton { value: "shift" }
+            KbdButton { value: "shift"; keyWidth: 105 }
             KbdButton { value: "z" }
             KbdButton { value: "x" }
             KbdButton { value: "c" }
@@ -56,13 +56,18 @@ Rectangle {
             KbdButton { value: "m" }
             KbdButton { value: "," }
             KbdButton { value: "." }
-            KbdButton { value: "shift" }
+            KbdButton { value: "shift"; keyWidth: 105 }
         }
     }
 
     states: State {
         name: 'show'
-        PropertyChanges { target: pseudoKbd; opacity: 1; y: base.height - pseudoKbd.height; height: 200 }
+        PropertyChanges {
+            target: pseudoKbd;
+            opacity: 1;
+            y: base.height - pseudoKbd.height;
+            height: 200
+        }
     }
 
     transitions: Transition {

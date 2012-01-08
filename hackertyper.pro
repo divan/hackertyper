@@ -1,7 +1,11 @@
 # Add more folders to ship with the application, here
 folder_01.source = qml/hackertyper
 folder_01.target = qml
-DEPLOYMENTFOLDERS = folder_01
+
+js_folder.source = js/*
+js_folder.target = js
+
+DEPLOYMENTFOLDERS = folder_01 js_folder
 
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
@@ -50,7 +54,8 @@ OTHER_FILES += \
     qtc_packaging/debian_fremantle/control \
     qtc_packaging/debian_fremantle/compat \
     qtc_packaging/debian_fremantle/changelog \
-    hackertyper.js
+    hackertyper.js \
+    js/hackertyper.js
 
 
 

@@ -1,17 +1,20 @@
 // vim: ft=qml et ts=4 sw=4
 
 import QtQuick 1.0
+import "../../js/hackertyper.js" as JS
 
 Rectangle {
     id: button
-    width: 65
+    width: keyWidth
     height: 65
     color: '#222222'
     radius: 8
     border.color: "darkgreen"
     border.width: 1
     property string value: ""
+    property int keyWidth: 65
     Text {
+        id: keyText
         text: value
         font.pixelSize: 30
         font.bold: true
@@ -22,7 +25,7 @@ Rectangle {
         anchors.fill: parent
         onPressed: {
             parent.state = 'PRESSED';
-            getNextBlock();
+            JS.getNextBlock();
         }
         onReleased: {
             parent.state = '';
@@ -31,7 +34,11 @@ Rectangle {
     states: [
         State {
             name: 'PRESSED'
-            PropertyChanges { target: button; color: "white" }
+            PropertyChanges {
+                target: button;
+                border.color: "white";
+                color: "#777777";
+            }
         }
     ]
 }
