@@ -24,7 +24,35 @@ Rectangle {
         anchors.fill: parent
         onPressed: {
             parent.state = 'PRESSED';
-            textEdit.text += codeData.getNextCode(applicationData.speed);
+            root.state = "NORMAL";
+
+            if (value == "Enter")
+            {
+                if (root.counterGranted > 2)
+                {
+                    root.state = "ACCESS_GRANTED";
+                    root.counterGranted = 0;
+                }
+                root.counterGranted++;
+            }
+            else if (value == ",")
+            {
+                if (root.counterDenied > 2)
+                {
+                    root.state = "ACCESS_DENIED";
+                    root.counterDenied = 0;
+                }
+                root.counterDenied++;
+            }
+
+            if (value == "-")
+            {
+                textEdit.text = "OK";
+            }
+            else
+            {
+                textEdit.text += codeData.getNextCode(applicationData.speed);
+            }
             updateFlickArea();
         }
         onReleased: {

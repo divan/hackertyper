@@ -5,9 +5,12 @@ import com.nokia.meego 1.0
 
 Rectangle {
     id: pseudoKeyboard
-    width: parent.width 
-    height: 200
+    anchors.bottom: parent.bottom
+    width: parent.width
+    height: 0
+    y: base.height
     visible: true
+    opacity: 0
     color: "#111111"
     border.color: "darkgreen"
     border.width: 1
@@ -28,7 +31,7 @@ Rectangle {
             KbdButton { value: "i" }
             KbdButton { value: "o" }
             KbdButton { value: "p" }
-            KbdButton { value: "-"; keyWidth: 85 }
+            KbdButton { value: "-"; keyWidth: 85; }
         }
         Row {
             spacing: 3
@@ -63,6 +66,7 @@ Rectangle {
 
     states: State {
         name: 'show'
+        when: (root.state == "NORMAL")
         PropertyChanges {
             target: pseudoKbd;
             opacity: 1;
@@ -75,7 +79,7 @@ Rectangle {
         NumberAnimation { properties: "opacity"; duration: 500 }
         NumberAnimation { properties: "y"; duration: 500; easing.type: Easing.InOutBack }
         NumberAnimation { properties: "height"; duration: 500; easing.type: Easing.InOutBack }
-}
+    }
 }
 
 

@@ -6,6 +6,8 @@ Rectangle {
     id: root
     width: 854
     height: 480
+    property int counterGranted: 0
+    property int counterDenied: 0
 
     Rectangle {
         id: base
@@ -36,21 +38,6 @@ Rectangle {
                 focus: true
                 wrapMode: TextEdit.WrapAnywhere
                 textFormat: TextEdit.PlainText
-                property int codePos: 0
-                Keys.onPressed: {
-                    textEdit.text += codeData.getNextCode(applicationData.speed);
-                    updateFlickArea();
-                }
-                AccessMessage {
-                    id: accessGrantedMsg
-                    msgText: "Access Granted"
-                    msgColor: "green"
-                }
-                AccessMessage {
-                    id: accessDeniedMsg
-                    msgText: "Access Denied"
-                    msgColor: "red"
-                }
             }
         }
         MouseArea {
@@ -69,18 +56,43 @@ Rectangle {
         }
     }
 
+    AccessMessage {
+        id: accessGrantedMsg
+        msgText: "Access Granted"
+        msgColor: "green"
+    }
+    AccessMessage {
+        id: accessDeniedMsg
+        msgText: "Access Denied"
+        msgColor: "red"
+    }
+
     PseudoKeyboard {
         id: pseudoKbd
-        opacity: 0
-        y: base.height
-        height: 0
-        anchors.bottom: parent.bottom
     }
 
     SettingsWindow {
         id: settingsWindow
         anchors.fill: parent
     }
+
+    states: [
+        State {
+            name: "NORMAL"
+            PropertyChanges { target: accessGrantedMsg; state: ""; }
+            PropertyChanges { target: accessDeniedMsg; state: ""; }
+        },
+        State {
+            name: "ACCESS_GRANTED"
+            PropertyChanges { target: accessGrantedMsg; state: "show"; }
+            PropertyChanges { target: accessDeniedMsg; state: ""; }
+        },
+        State {
+            name: "ACCESS_DENIED"
+            PropertyChanges { target: accessGrantedMsg; state: ""; }
+            PropertyChanges { target: accessDeniedMsg; state: "show"; }
+        }
+    ]
 
     function updateFlickArea()
     {
