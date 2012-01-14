@@ -12,7 +12,6 @@ public:
     void initialize() {
         QSettings settings("divan","Hackertyper");
         _speed = settings.value("Main/Speed", 14).toInt();
-        qDebug() << "Speed READ1: " << _speed;
     }
 
     int speed() { return _speed; qDebug() << "Speed READ: " << _speed; }
@@ -21,7 +20,6 @@ public:
             QSettings settings("divan", "Hackertyper");
             _speed = speed;
             settings.setValue("Main/Speed", speed);
-            qDebug() << "Speed Set: " << speed;
             emit speedChanged();
         }
     }
