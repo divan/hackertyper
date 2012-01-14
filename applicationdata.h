@@ -14,7 +14,7 @@ public:
         _speed = settings.value("Main/Speed", 14).toInt();
     }
 
-    int speed() { return _speed; qDebug() << "Speed READ: " << _speed; }
+    int speed() { return _speed; }
     void setSpeed(const int speed) {
         if (speed != _speed) {
             QSettings settings("divan", "Hackertyper");
