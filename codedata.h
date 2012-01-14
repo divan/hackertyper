@@ -44,7 +44,6 @@ public slots:
     Q_INVOKABLE QString getNextCode(int speed) {
         QString code = _data.mid(_pos, speed);
         _pos += speed;
-        qDebug() << "getNextCode";
         return code;
     }
 
