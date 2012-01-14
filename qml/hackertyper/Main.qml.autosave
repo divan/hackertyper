@@ -36,7 +36,6 @@ Rectangle {
                 focus: true
                 wrapMode: TextEdit.WrapAnywhere
                 textFormat: TextEdit.PlainText
-                property int codePos: 0
                 Keys.onPressed: {
                     textEdit.text += codeData.getNextCode(applicationData.speed);
                     updateFlickArea();

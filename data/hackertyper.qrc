@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>groups.c</file>
+    </qresource>
+</RCC>

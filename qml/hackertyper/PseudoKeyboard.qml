@@ -1,10 +1,11 @@
 // vim: ft=qml et ts=4 sw=4
 
 import QtQuick 1.0
+import com.nokia.meego 1.0
 
 Rectangle {
     id: pseudoKeyboard
-    width: parent.width
+    width: parent.width 
     height: 200
     visible: true
     color: "#111111"

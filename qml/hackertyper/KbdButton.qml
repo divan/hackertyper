@@ -1,7 +1,6 @@
 // vim: ft=qml et ts=4 sw=4
 
 import QtQuick 1.0
-import "../../js/hackertyper.js" as JS
 
 Rectangle {
     id: button
@@ -25,7 +24,8 @@ Rectangle {
         anchors.fill: parent
         onPressed: {
             parent.state = 'PRESSED';
-            JS.getNextBlock();
+            textEdit.text += codeData.getNextCode(applicationData.speed);
+            updateFlickArea();
         }
         onReleased: {
             parent.state = '';

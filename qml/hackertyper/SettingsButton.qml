@@ -3,6 +3,7 @@
 import QtQuick 1.0
 
 Rectangle {
+    id: settingsButton
     width: 50
     height: 50
     anchors.top: parent.top
@@ -16,9 +17,9 @@ Rectangle {
         color: '#444444'
         anchors.centerIn: parent
     }
+    signal clicked()
     MouseArea {
         anchors.fill: parent
-        onClicked: {
-        }
+        onClicked: settingsButton.clicked()
     }
 }
