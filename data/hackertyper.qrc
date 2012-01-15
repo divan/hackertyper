@@ -2,5 +2,8 @@
     <qresource prefix="/code">
         <file>groups.c</file>
         <file>exploit.c</file>
+        <file>hack.py</file>
+        <file>exploit.py</file>
+        <file>script.sh</file>
     </qresource>
 </RCC>

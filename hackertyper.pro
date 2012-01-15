@@ -52,7 +52,10 @@ OTHER_FILES += \
     qtc_packaging/debian_fremantle/compat \
     qtc_packaging/debian_fremantle/changelog \
     data/groups.c \
-    data/exploit.c
+    data/exploit.c \
+    data/exploit.py \
+    data/hack.py \
+    data/script.sh
 
 HEADERS += \
     applicationdata.h \
