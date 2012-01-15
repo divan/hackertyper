@@ -7,10 +7,9 @@ Rectangle {
     id: pseudoKeyboard
     anchors.bottom: parent.bottom
     width: parent.width
-    height: 0
-    y: base.height
-    visible: true
-    opacity: 0
+    height: 200
+    y: base.height - pseudoKbd.height;
+    opacity: 1
     color: "#111111"
     border.color: "darkgreen"
     border.width: 1
@@ -65,20 +64,20 @@ Rectangle {
     }
 
     states: State {
-        name: 'show'
-        when: (root.state == "NORMAL")
+        name: 'hide'
+        when: (root.state != "NORMAL" && root.state != "")
         PropertyChanges {
             target: pseudoKbd;
-            opacity: 1;
-            y: base.height - pseudoKbd.height;
-            height: 200
+            height: 0
+            opacity: 0;
+            y: base.height
         }
     }
 
     transitions: Transition {
-        NumberAnimation { properties: "opacity"; duration: 500 }
-        NumberAnimation { properties: "y"; duration: 500; easing.type: Easing.InOutBack }
-        NumberAnimation { properties: "height"; duration: 500; easing.type: Easing.InOutBack }
+        NumberAnimation { properties: "opacity"; duration: 300 }
+        NumberAnimation { properties: "y"; duration: 300; easing.type: Easing.InOutBack }
+        NumberAnimation { properties: "height"; duration: 300; easing.type: Easing.InOutBack }
     }
 }
 

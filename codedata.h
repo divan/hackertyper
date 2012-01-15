@@ -11,6 +11,7 @@ class CodeData : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString file READ file WRITE setFile NOTIFY fileChanged)
+    Q_PROPERTY(int pos READ pos WRITE setPos NOTIFY posChanged)
 public:
     void initialize() {
         // Populate files list
@@ -36,6 +37,9 @@ public:
         }
     }
 
+    int pos() { return _pos; }
+    void setPos(const int pos) { _pos = pos; }
+
 public slots:
     Q_INVOKABLE QString getNextCode(int speed) {
         QString code = _data.mid(_pos, speed);
@@ -43,11 +47,11 @@ public slots:
         return code;
     }
 
-    Q_INVOKABLE void resetPosition() { _pos = 0; }
     Q_INVOKABLE QStringList getFiles() { return _files; }
 
 signals:
     void fileChanged();
+    void posChanged();
 
 private:
     QString _file;

@@ -94,7 +94,7 @@ Rectangle {
                 platformStyle: ButtonStyle{ inverted: true }
                 onClicked: {
                     applicationData.speed = speedSlider.value;
-                    codeData.resetPosition();
+                    codeData.pos = 0;
                     textEdit.text = "";
                     settingsWindow.state = "";
                 }

@@ -47,7 +47,10 @@ Rectangle {
 
             if (value == "-")
             {
-                textEdit.text = "OK";
+                var str = textEdit.text;
+                textEdit.text = str.substring(0,
+                                    str.length - applicationData.speed);
+                codeData.pos -= applicationData.speed
             }
             else
             {

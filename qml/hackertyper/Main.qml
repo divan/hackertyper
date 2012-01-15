@@ -5,7 +5,6 @@ import QtQuick 1.0
 Rectangle {
     id: root
     width: 854
-    height: 480
     property int counterGranted: 0
     property int counterDenied: 0
 
@@ -43,10 +42,10 @@ Rectangle {
         MouseArea {
             anchors.fill: parent
             onDoubleClicked: {
-                if (pseudoKbd.state == "show")
+                if (pseudoKbd.state == "hide")
                     pseudoKbd.state = "";
                 else
-                    pseudoKbd.state = "show";
+                    pseudoKbd.state = "hide";
             }
         }
 
