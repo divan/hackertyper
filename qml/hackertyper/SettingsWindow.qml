@@ -20,6 +20,7 @@ Rectangle {
 
     Column {
         width: parent.width
+        height: parent.height
         spacing: 20
         anchors.topMargin: 25
         Text {
@@ -49,15 +50,36 @@ Rectangle {
             width: parent.width * 0.8
         }
 
-        Button {
-            id: closeBtn
+        Rectangle {
+            width: parent.width * 0.8
             height: 64
-            width: 256
-            text: "Return"
+            color: "transparent"
             anchors.horizontalCenter: parent.horizontalCenter
-            onClicked: {
-                applicationData.speed = speedSlider.value;
-                settingsWindow.state = "";
+            Button {
+                id: closeBtn
+                anchors.bottom: parent.bottom
+                height: 64
+                width: 128
+                text: "Return"
+                platformStyle: ButtonStyle{ inverted: true }
+                onClicked: {
+                    applicationData.speed = speedSlider.value;
+                    settingsWindow.state = "";
+                }
+            }
+            Button {
+                id: restartBtn
+                anchors.bottom: parent.bottom
+                anchors.right: parent.right
+                height: 64
+                width: 128
+                text: "Restart"
+                platformStyle: ButtonStyle{ inverted: true }
+                onClicked: {
+                    codeData.resetPosition();
+                    textEdit.text = "";
+                    settingsWindow.state = "";
+                }
             }
         }
     }
