@@ -5,7 +5,7 @@ import QtQuick 1.0
 Rectangle {
     id: accessMessage
     width: parent.width * 0.8
-    height: width * 0.2
+    height: parent.height * 0.25
     x: root.width/2 - width/2
     y: root.height/2 - height/2
     visible: false
@@ -26,6 +26,7 @@ Rectangle {
     border.color: msgColor
     border.width: 1
     Text {
+        id: text
         color: msgColor
         text: msgText
         anchors.fill: parent
@@ -34,6 +35,8 @@ Rectangle {
         font.bold: true
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
+        width: parent.width
+        wrapMode: Text.Wrap
     }
     MouseArea {
         anchors.fill: parent
