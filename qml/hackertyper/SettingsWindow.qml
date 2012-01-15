@@ -2,6 +2,7 @@
 
 import QtQuick 1.0
 import com.nokia.meego 1.0
+import com.nokia.extras 1.0
 
 Rectangle {
     id: settingsWindow
@@ -50,6 +51,22 @@ Rectangle {
             width: parent.width * 0.8
         }
 
+        Label {
+            text: "Code file:"
+            color: "white"
+            width: parent.width * 0.8
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
+
+        TumblerButton {
+            id: codeTumblerButton
+            text: codeData.file
+            width: parent.width * 0.8
+            anchors.horizontalCenter: parent.horizontalCenter
+            style: TumblerButtonStyle { inverted: true }
+            onClicked: codeDialog.open()
+        }
+
         Rectangle {
             width: parent.width * 0.8
             height: 64
@@ -76,11 +93,31 @@ Rectangle {
                 text: "Restart"
                 platformStyle: ButtonStyle{ inverted: true }
                 onClicked: {
+                    applicationData.speed = speedSlider.value;
                     codeData.resetPosition();
                     textEdit.text = "";
                     settingsWindow.state = "";
                 }
             }
         }
+    }
+    TumblerDialog {
+        id: codeDialog
+        acceptButtonText: "OK"
+        titleText: "Select file:"
+        onAccepted: codeSelectCallback()
+        columns: [ codeColumn ]
+    }
+    function codeSelectCallback()
+    {
+        var idx = codeColumn.selectedIndex;
+        codeTumblerButton.text = codeColumn.items[idx];
+        codeData.file = codeTumblerButton.text;
+    }
+
+    TumblerColumn {
+        id: codeColumn
+        items: codeData.getFiles()
+        selectedIndex: 0
     }
 }

@@ -1,5 +1,6 @@
 <RCC>
-    <qresource prefix="/">
+    <qresource prefix="/code">
         <file>groups.c</file>
+        <file>exploit.c</file>
     </qresource>
 </RCC>

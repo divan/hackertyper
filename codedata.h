@@ -5,38 +5,34 @@
 #include <QDebug>
 #include <QApplication>
 #include <QFile>
-#include <QTextStream>
+#include <QDir>
 
 class CodeData : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
+    Q_PROPERTY(QString file READ file WRITE setFile NOTIFY fileChanged)
 public:
     void initialize() {
-        QSettings settings("divan","Hackertyper");
-        _name = settings.value("Main/Code", "groups.c").toString();
+        // Populate files list
+        QDir codeDir(":/code");
+        codeDir.setFilter(QDir::Files | QDir::NoSymLinks);
+        QFileInfoList list = codeDir.entryInfoList();
+        foreach (QFileInfo f, list)
+            _files << f.fileName();
 
-        QFile file(":/groups.c");
-        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        {
-            qWarning() << "(WW) Cannot find file" << _name;
-            return;
-        }
-
-        while (!file.atEnd()) {
-            _data += file.readLine();
-        }
-
-        _pos = 0;
+        QSettings settings("divan", "Hackertyper");
+        _file = settings.value("Main/Code", "groups.c").toString();
+        readFile(_file);
     }
 
-    QString name() { return _name; }
-    void setName(const QString name) {
-        if (name != _name) {
+    QString file() { return _file; }
+    void setFile(const QString file) {
+        if (file != _file) {
             QSettings settings("divan", "Hackertyper");
-            _name = name;
-            settings.setValue("Main/Code", name);
-            emit nameChanged();
+            _file = file;
+            settings.setValue("Main/Code", file);
+            emit fileChanged();
+            readFile(_file);
         }
     }
 
@@ -48,14 +44,33 @@ public slots:
     }
 
     Q_INVOKABLE void resetPosition() { _pos = 0; }
+    Q_INVOKABLE QStringList getFiles() { return _files; }
 
 signals:
-    void nameChanged();
+    void fileChanged();
 
 private:
-    QString _name;
+    QString _file;
     int _pos;
     QString _data;
+    QStringList _files;
+
+    void readFile(const QString fileName)
+    {
+        QFile file(":/code/" + fileName);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+            qWarning() << "(WW) Cannot find file" << fileName;
+            return;
+        }
+
+        _data.clear();
+        while (!file.atEnd()) {
+            _data += file.readLine();
+        }
+
+        _pos = 0;
+    }
 };
 
 #endif // CODEDATA_H
