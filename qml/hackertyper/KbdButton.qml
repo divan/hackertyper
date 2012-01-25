@@ -4,14 +4,17 @@ import QtQuick 1.0
 
 Rectangle {
     id: button
-    width: keyWidth
+    width: keyWidth / 1000 * pseudoKeyboard.width
     height: 65
-    color: '#222222'
+    gradient: Gradient {
+        GradientStop { id: gradient1; position: 0.0; color: "#524e4e" }
+        GradientStop { id: gradient2; position: 0.7; color: "black"}
+    }
     radius: 8
     border.color: "darkgreen"
     border.width: 1
     property string value: ""
-    property int keyWidth: 65
+    property int keyWidth: 76
     Text {
         id: keyText
         text: value

@@ -19,7 +19,7 @@ Rectangle {
         anchors.centerIn: parent
         Row {
             spacing: 2
-            KbdButton { value: "Tab"; keyWidth: 85 }
+            KbdButton { value: "Tab"; keyWidth: 120 }
             KbdButton { value: "q" }
             KbdButton { value: "w" }
             KbdButton { value: "e" }
@@ -30,11 +30,10 @@ Rectangle {
             KbdButton { value: "i" }
             KbdButton { value: "o" }
             KbdButton { value: "p" }
-            KbdButton { value: "-"; keyWidth: 85; }
+            KbdButton { value: "-"; keyWidth: 110; }
         }
         Row {
             spacing: 3
-            KbdButton { value: "|" }
             KbdButton { value: "a" }
             KbdButton { value: "s" }
             KbdButton { value: "d" }
@@ -45,11 +44,11 @@ Rectangle {
             KbdButton { value: "k" }
             KbdButton { value: "l" }
             KbdButton { value: "'" }
-            KbdButton { value: "Enter"; keyWidth: 125 }
+            KbdButton { value: "Enter"; keyWidth: 216 }
         }
         Row {
             spacing: 3
-            KbdButton { value: "shift"; keyWidth: 105 }
+            KbdButton { value: "shift"; keyWidth: 140 }
             KbdButton { value: "z" }
             KbdButton { value: "x" }
             KbdButton { value: "c" }
@@ -59,7 +58,7 @@ Rectangle {
             KbdButton { value: "m" }
             KbdButton { value: "," }
             KbdButton { value: "." }
-            KbdButton { value: "shift"; keyWidth: 105 }
+            KbdButton { value: "shift"; keyWidth: 155 }
         }
     }
 
