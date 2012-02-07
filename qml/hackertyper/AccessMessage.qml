@@ -20,7 +20,7 @@ Rectangle {
         }
     }
 
-    color: "darkgrey"
+    color: "#333"
     property string msgColor: ""
     property string msgText: ""
     border.color: msgColor
