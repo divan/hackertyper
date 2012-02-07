@@ -98,4 +98,6 @@ Rectangle {
         if (!flickArea.atYEnd)
             flickArea.contentY = textEdit.height - flickArea.height + 3;
     }
+
+    Component.onCompleted: settingsWindow.state = "show";
 }
