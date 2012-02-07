@@ -32,7 +32,7 @@ Rectangle {
                 text: ""
                 readOnly: true
                 font.family: "monospace"
-                font.pointSize: 18
+                font.pixelSize: 26
                 color: "#00FF00"
                 focus: true
                 wrapMode: TextEdit.WrapAnywhere
@@ -57,12 +57,12 @@ Rectangle {
 
     AccessMessage {
         id: accessGrantedMsg
-        msgText: "Access Granted"
-        msgColor: "green"
+        msgText: "ACCESS GRANTED"
+        msgColor: "lime"
     }
     AccessMessage {
         id: accessDeniedMsg
-        msgText: "Access Denied"
+        msgText: "ACCESS DENIED"
         msgColor: "red"
     }
 
