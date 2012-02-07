@@ -19,88 +19,89 @@ Rectangle {
         }
     }
 
-    Column {
+    Flickable {
         width: parent.width
         height: parent.height
-        spacing: 20
-        anchors.topMargin: 25
-        Text {
+        contentWidth: parent.width
+        contentHeight: settingsCol.height + 20
+        flickableDirection: Flickable.VerticalFlick
+
+        anchors.fill: parent
+
+        Column {
+            id: settingsCol
             width: parent.width
-            text: "Hacker Typer"
-            font.pixelSize: 72
-            font.bold: true
-            color: '#004400'
-            horizontalAlignment: Text.AlignHCenter
-        }
+            spacing: 30
+            anchors.topMargin: 25
 
-        Label {
-            text: "Typing speed: " + speedSlider.value
-            color: "white"
-            width: parent.width * 0.8
-            anchors.horizontalCenter: parent.horizontalCenter
-        }
+            Text {
+                width: parent.width
+                text: "Hacker Typer"
+                font.pixelSize: 72
+                font.bold: true
+                color: "lime"
+                horizontalAlignment: Text.AlignHCenter
+            }
 
-        Slider {
-            id: speedSlider
-            stepSize: 1
-            valueIndicatorVisible: false
-            minimumValue:1
-            maximumValue:30
-            value: applicationData.speed
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: parent.width * 0.8
-        }
+            Label {
+                text: "Typing speed: " + speedSlider.value
+                color: "lime"
+                font.pixelSize: 32
+                width: parent.width * 0.8
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
 
-        Label {
-            text: "Code file:"
-            color: "white"
-            width: parent.width * 0.8
-            anchors.horizontalCenter: parent.horizontalCenter
-        }
+            Slider {
+                id: speedSlider
+                stepSize: 1
+                valueIndicatorVisible: false
+                minimumValue:1
+                maximumValue:30
+                value: applicationData.speed
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width * 0.8
+            }
 
-        TumblerButton {
-            id: codeTumblerButton
-            text: codeData.file
-            width: parent.width * 0.8
-            anchors.horizontalCenter: parent.horizontalCenter
-            style: TumblerButtonStyle { inverted: true }
-            onClicked: codeDialog.open()
-        }
+            Label {
+                text: "Code file:"
+                color: "lime"
+                font.pixelSize: 32
+                width: parent.width * 0.8
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
 
-        Rectangle {
-            width: parent.width * 0.8
-            height: 64
-            color: "transparent"
-            anchors.horizontalCenter: parent.horizontalCenter
-            Button {
-                id: closeBtn
-                anchors.bottom: parent.bottom
-                height: 64
-                width: 128
-                text: "Return"
-                platformStyle: ButtonStyle{ inverted: true }
-                onClicked: {
-                    applicationData.speed = speedSlider.value;
-                    settingsWindow.state = "";
+            TumblerButton {
+                id: codeTumblerButton
+                text: codeData.file
+                width: parent.width * 0.8
+                anchors.horizontalCenter: parent.horizontalCenter
+                style: TumblerButtonStyle { inverted: true }
+                onClicked: codeDialog.open()
+            }
+
+            HackButton {
+                id: hackBtn
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+
+            Rectangle {
+                width: parent.width * 0.8
+                height: tipsText.height + 10
+                color: "black"
+                border.color: "green"
+                border.width: 1
+                anchors.horizontalCenter: parent.horizontalCenter
+                Label {
+                    id: tipsText
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: "<b><u>Tips</u></b>:<br /><b>Enter</b> x 3 - Access Granted<br /><b>Tab</b> x 3 - Access Denied"
+                    color: "green"
                 }
             }
-            Button {
-                id: restartBtn
-                anchors.bottom: parent.bottom
-                anchors.right: parent.right
-                height: 64
-                width: 128
-                text: "Restart"
-                platformStyle: ButtonStyle{ inverted: true }
-                onClicked: {
-                    applicationData.speed = speedSlider.value;
-                    codeData.pos = 0;
-                    textEdit.text = "";
-                    settingsWindow.state = "";
-                }
-            }
-        }
-    }
+        } // Column
+    } // Flickable
+
     TumblerDialog {
         id: codeDialog
         acceptButtonText: "OK"
