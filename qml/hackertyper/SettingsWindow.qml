@@ -23,18 +23,21 @@ Rectangle {
         width: parent.width
         height: parent.height
         contentWidth: parent.width
-        contentHeight: settingsCol.height + 20
+        contentHeight: settingsItem.height + 20
         flickableDirection: Flickable.VerticalFlick
+        anchors.horizontalCenter: parent.horizontalCenter
 
-        anchors.fill: parent
-
-        Column {
-            id: settingsCol
-            width: parent.width
-            spacing: 30
-            anchors.topMargin: 25
+        Rectangle {
+            id: settingsItem
+            width: parent.width * 0.8
+            color: "transparent"
+            height: (screen.currentOrientation == Screen.Portrait) ? 800 : 550
+            anchors.horizontalCenter: parent.horizontalCenter
 
             Text {
+                id: title
+                anchors.top: settingsItem.top
+                anchors.margins: 25
                 width: parent.width
                 text: "Hacker Typer"
                 font.pixelSize: 72
@@ -44,48 +47,51 @@ Rectangle {
             }
 
             Label {
+                id: typingLabel
+                anchors.top: title.bottom
+                anchors.margins: 25
                 text: "Typing speed: " + speedSlider.value
                 color: "lime"
                 font.pixelSize: 32
-                width: parent.width * 0.8
-                anchors.horizontalCenter: parent.horizontalCenter
             }
 
             Slider {
                 id: speedSlider
+                anchors.top: (screen.currentOrientation == Screen.Portrait) ? typingLabel.bottom : title.bottom
+                anchors.left: (screen.currentOrientation == Screen.Portrait) ? typingLabel.left : typingLabel.right
+                anchors.margins: 25
                 stepSize: 1
                 valueIndicatorVisible: false
                 minimumValue:1
                 maximumValue:30
                 value: applicationData.speed
-                anchors.horizontalCenter: parent.horizontalCenter
-                width: parent.width * 0.8
             }
 
             Label {
+                id: codeLabel
+                anchors.top: speedSlider.bottom
+                anchors.margins: 25
                 text: "Code file:"
                 color: "lime"
                 font.pixelSize: 32
-                width: parent.width * 0.8
-                anchors.horizontalCenter: parent.horizontalCenter
             }
 
             TumblerButton {
                 id: codeTumblerButton
+                anchors.top: (screen.currentOrientation == Screen.Portrait) ? codeLabel.bottom : speedSlider.bottom
+                anchors.left: (screen.currentOrientation == Screen.Portrait) ? codeLabel.left : codeLabel.right
+                width: (screen.currentOrientation == Screen.Portrait) ? parent.width : parent.width - codeLabel.width
+                anchors.margins: 25
                 text: codeData.file
-                width: parent.width * 0.8
-                anchors.horizontalCenter: parent.horizontalCenter
                 style: TumblerButtonStyle { inverted: true }
                 onClicked: codeDialog.open()
             }
 
-            HackButton {
-                id: hackBtn
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-
             Rectangle {
-                width: parent.width * 0.8
+                id: tipsRectangle
+                anchors.margins: 25
+                anchors.top: (screen.currentOrientation == Screen.Portrait) ? codeTumblerButton.bottom : hackBtn.bottom
+                width: parent.width
                 height: tipsText.height + 10
                 color: "black"
                 border.color: "green"
@@ -98,6 +104,13 @@ Rectangle {
                     text: "<b><u>Tips</u></b>:<br /><b>Enter</b> x 3 - Access Granted<br /><b>Tab</b> x 3 - Access Denied"
                     color: "green"
                 }
+            }
+
+            HackButton {
+                id: hackBtn
+                anchors.margins: 45
+                anchors.top: (screen.currentOrientation == Screen.Portrait) ? tipsRectangle.bottom : codeTumblerButton.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
             }
         } // Column
     } // Flickable
