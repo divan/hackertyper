@@ -31,7 +31,7 @@ Rectangle {
         text: msgText
         anchors.fill: parent
         font.family: "monospace"
-        font.pointSize: 48
+        font.pixelSize: 72
         font.bold: true
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
