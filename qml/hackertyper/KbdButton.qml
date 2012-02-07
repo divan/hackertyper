@@ -38,7 +38,7 @@ Rectangle {
                 }
                 root.counterGranted++;
             }
-            else if (value == ",")
+            else if (value == "Tab")
             {
                 if (root.counterDenied > 2)
                 {
