@@ -11,14 +11,13 @@ Rectangle {
     y: base.height - pseudoKbd.height;
     opacity: 1
     color: "#111111"
-    border.color: "darkgreen"
-    border.width: 1
-
+  
     Column {
         spacing: 3
-        anchors.centerIn: parent
+        anchors.centerIn: parent 
         Row {
             spacing: 2
+            anchors.horizontalCenter: parent.horizontalCenter
             KbdButton { value: "Tab"; keyWidth: 120 }
             KbdButton { value: "q" }
             KbdButton { value: "w" }
@@ -34,6 +33,7 @@ Rectangle {
         }
         Row {
             spacing: 3
+            anchors.horizontalCenter: parent.horizontalCenter
             KbdButton { value: "a" }
             KbdButton { value: "s" }
             KbdButton { value: "d" }
@@ -43,11 +43,12 @@ Rectangle {
             KbdButton { value: "j" }
             KbdButton { value: "k" }
             KbdButton { value: "l" }
-            KbdButton { value: "'" }
+            //KbdButton { value: "'" }
             KbdButton { value: "Enter"; keyWidth: 216 }
         }
         Row {
             spacing: 3
+            anchors.horizontalCenter: parent.horizontalCenter
             KbdButton { value: "shift"; keyWidth: 140 }
             KbdButton { value: "z" }
             KbdButton { value: "x" }
@@ -56,8 +57,8 @@ Rectangle {
             KbdButton { value: "b" }
             KbdButton { value: "n" }
             KbdButton { value: "m" }
-            KbdButton { value: "," }
-            KbdButton { value: "." }
+            //KbdButton { value: "," }
+            //KbdButton { value: "." }
             KbdButton { value: "shift"; keyWidth: 155 }
         }
     }

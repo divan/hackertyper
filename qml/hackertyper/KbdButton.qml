@@ -14,7 +14,7 @@ Rectangle {
     border.color: "darkgreen"
     border.width: 1
     property string value: ""
-    property int keyWidth: 76
+    property int keyWidth: 90
     Text {
         id: keyText
         text: value
